@@ -78,7 +78,12 @@ export type ExplainInput = {
   agentSummary: string; // what the fixing agent said it did
 };
 
-export async function explain(client: OpenAI, model: string, input: ExplainInput): Promise<Explanation> {
+export async function explain(
+  client: OpenAI,
+  model: string,
+  input: ExplainInput,
+  signal?: AbortSignal
+): Promise<{ explanation: Explanation; usage?: OpenAI.Responses.ResponseUsage }> {
   const evidence = [
     `# What the user asked for\n${input.bugDescription}`,
     `# The user's recent changes (since their last git commit)\n${input.causeReport ?? "Not available (the project isn't using git, or has no commits)."}`,
@@ -86,14 +91,17 @@ export async function explain(client: OpenAI, model: string, input: ExplainInput
     `# The fixing agent's own notes\n${input.agentSummary || "(none)"}`,
   ].join("\n\n");
 
-  const response = await client.responses.create({
-    model,
-    instructions: INSTRUCTIONS,
-    input: evidence,
-    reasoning: { effort: "medium" },
-    text: { format: { type: "json_schema", name: "explanation", strict: true, schema: SCHEMA as any } },
-  });
-  return JSON.parse(response.output_text) as Explanation;
+  const response = await client.responses.create(
+    {
+      model,
+      instructions: INSTRUCTIONS,
+      input: evidence,
+      reasoning: { effort: "medium" },
+      text: { format: { type: "json_schema", name: "explanation", strict: true, schema: SCHEMA as any } },
+    },
+    { signal }
+  );
+  return { explanation: JSON.parse(response.output_text) as Explanation, usage: response.usage };
 }
 
 export function formatExplanation(e: Explanation): string {

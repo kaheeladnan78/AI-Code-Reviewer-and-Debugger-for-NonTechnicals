@@ -34,7 +34,10 @@ export type ImpactReport = {
   graph: CallGraph;
 };
 
-export function analyzeChanges(root: string, files: FileChange[]): ImpactReport {
+/**
+ * `overrides` lets us analyse a proposed edit before it's written: path → proposed file text.
+ */
+export function analyzeChanges(root: string, files: FileChange[], overrides = new Map<string, string>()): ImpactReport {
   const functionChanges: FunctionChange[] = [];
   const topLevelEdits: ImpactReport["topLevelEdits"] = [];
   const syntaxErrors: ImpactReport["syntaxErrors"] = [];
@@ -81,7 +84,7 @@ export function analyzeChanges(root: string, files: FileChange[]): ImpactReport 
   }
 
   // Step 4: map the whole project (as it is now)
-  const graph = buildCallGraph(root, listProjectFiles(root));
+  const graph = buildCallGraph(root, listProjectFiles(root), overrides);
 
   // Step 6: find who calls each function whose contract changed
   const impacts: Impact[] = [];

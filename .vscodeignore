@@ -1,0 +1,8 @@
+src/**
+demo/**
+.vscode/**
+agent.ts
+esbuild.mjs
+tsconfig.json
+**/*.map
+!media/robot.png

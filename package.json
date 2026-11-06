@@ -1,15 +1,84 @@
 {
   "name": "ai-code-reviewer-and-debugger-for-nontechnicals",
+  "displayName": "AI Debugger & Teacher",
+  "description": "Fixes bugs with your approval, then explains them in plain English and teaches the coding concept behind each one.",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
+  "publisher": "local-dev",
+  "icon": "media/robot.png",
   "license": "ISC",
   "type": "module",
+  "main": "./dist/extension.cjs",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Education"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiDebugger",
+          "title": "AI Debugger",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "aiDebugger": [
+        {
+          "type": "webview",
+          "id": "aiDebugger.chat",
+          "name": "Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aiDebugger.newChat",
+        "title": "New Chat",
+        "category": "AI Debugger",
+        "icon": "$(add)"
+      },
+      {
+        "command": "aiDebugger.setApiKey",
+        "title": "Set OpenAI API Key",
+        "category": "AI Debugger",
+        "icon": "$(key)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "aiDebugger.newChat",
+          "when": "view == aiDebugger.chat",
+          "group": "navigation@1"
+        },
+        {
+          "command": "aiDebugger.setApiKey",
+          "when": "view == aiDebugger.chat",
+          "group": "navigation@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AI Debugger",
+      "properties": {
+        "aiDebugger.model": {
+          "type": "string",
+          "default": "gpt-5.5",
+          "description": "The OpenAI model the debugger uses."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc -p .",
+    "cli": "tsx --env-file=.env agent.ts"
+  },
   "dependencies": {
     "diff": "^9.0.0",
     "openai": "^7.50.0",
@@ -17,6 +86,8 @@
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
+    "@types/vscode": "^1.90.0",
+    "esbuild": "^0.28.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }

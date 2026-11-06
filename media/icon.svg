@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#c5c5c5">
+  <!-- Same robot as robot.svg, as one solid shape. VS Code recolours it to match the theme. -->
+  <rect x="11.44" y="2.6" width="1.12" height="3" rx="0.56"/>
+  <circle cx="12" cy="2.63" r="1.31"/>
+  <rect x="2.63" y="9.38" width="1.88" height="4.88" rx="0.94"/>
+  <rect x="19.5" y="9.38" width="1.88" height="4.88" rx="0.94"/>
+  <!-- head, with eyes and mouth cut out -->
+  <path fill-rule="evenodd" d="M7.51 5.25H16.5A3.38 3.38 0 0 1 19.88 8.63V13.5A3.38 3.38 0 0 1 16.5 16.88H7.51A3.38 3.38 0 0 1 4.13 13.5V8.63A3.38 3.38 0 0 1 7.51 5.25Z M6.94 10.5a1.69 1.69 0 1 0 3.38 0a1.69 1.69 0 1 0 -3.38 0Z M13.69 10.5a1.69 1.69 0 1 0 3.38 0a1.69 1.69 0 1 0 -3.38 0Z M8.63 13.5h6.75v1.31h-6.75Z"/>
+  <!-- pupils -->
+  <circle cx="9" cy="10.69" r="0.75"/>
+  <circle cx="15.75" cy="10.69" r="0.75"/>
+  <!-- body -->
+  <rect x="7.5" y="17.25" width="9" height="3.75" rx="1.5"/>
+</svg>
