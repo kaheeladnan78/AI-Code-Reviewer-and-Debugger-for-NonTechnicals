@@ -2,6 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run AI Debugger on demo folder",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}", "${workspaceFolder}/demo"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.cjs"],
+      "preLaunchTask": "npm: build"
+    },
+    {
       "name": "Run AI Debugger on Quickity test copy",
       "type": "extensionHost",
       "request": "launch",
@@ -9,14 +17,6 @@
         "--extensionDevelopmentPath=${workspaceFolder}",
         "/Users/kaheel/Documents/just for fun testing quickity code"
       ],
-      "outFiles": ["${workspaceFolder}/dist/**/*.cjs"],
-      "preLaunchTask": "npm: build"
-    },
-    {
-      "name": "Run AI Debugger on demo folder",
-      "type": "extensionHost",
-      "request": "launch",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}", "${workspaceFolder}/demo"],
       "outFiles": ["${workspaceFolder}/dist/**/*.cjs"],
       "preLaunchTask": "npm: build"
     }
