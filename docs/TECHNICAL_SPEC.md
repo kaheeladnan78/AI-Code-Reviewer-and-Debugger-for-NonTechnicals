@@ -1,6 +1,6 @@
 # DebugWise Technical Specification
 
-**Status** · Working local prototype, reviewed at revision `3600941` on November 19, 2026. This spec describes the local build, which is ahead of the GitHub source available when this document was written. See the [PRD](PRD.md) for scope and pilot gates.
+**Status** · Working prototype, last updated November 19, 2026. See the [PRD](PRD.md) for scope and pilot gates, and the [README](../README.md) for setup.
 
 ## Scope and entry points
 
@@ -10,11 +10,11 @@
 | CLI | `agent.ts` | Runs the same session against the selected project directory with terminal approval prompts. With no description it asks the agent to check recent changes. |
 | Evaluation | `evals/run.ts` | Runs the same session against fixture projects using test callbacks, or validates the fixtures without AI calls. |
 
-The extension host is TypeScript bundled with esbuild. The sidebar is a vanilla HTML, CSS, and JavaScript webview. The repository documents VS Code 1.90+ and Node.js 20+ for development. Its OpenAI Responses API client uses `gpt-5.5` by default with medium reasoning effort. The extension's `aiDebugger.model` setting selects the model for both debugging and lesson generation.
+The extension host is TypeScript bundled with esbuild. The sidebar is a vanilla HTML, CSS, and JavaScript webview in `media/`. The repository documents VS Code 1.90+ and Node.js 20+ for development. Its OpenAI Responses API client uses `gpt-5.5` by default with medium reasoning effort. The extension's `aiDebugger.model` setting selects the model for both debugging and lesson generation.
 
 ## Architecture and session lifecycle
 
-1. The host creates an `AgentSession` with a project root, model client, and `AgentCallbacks`. The extension reads the key from VS Code SecretStorage or, as a fallback, `OPENAI_API_KEY`. The CLI uses the environment.
+1. The host creates an `AgentSession` (`src/agent/session.ts`) with a project root, model client, and `AgentCallbacks`. The extension reads the key from VS Code SecretStorage or, as a fallback, `OPENAI_API_KEY`. The CLI uses the environment.
 2. The session compares the working tree to `HEAD` when a commit is available. It renders the diff, changed functions, likely affected callers, and concrete issues as context. Missing Git history or analysis failure leaves the conversational flow available. An identical recent-change report is omitted on follow-up turns because the session already holds it.
 3. The Responses API receives the conversation history and tool definitions. Streaming deltas reach the sidebar or CLI through callbacks. Each model iteration can request multiple tools, which execute sequentially and return text to the conversation. A run stops when there are no tool calls, on cancellation or error, or at the 30-iteration limit. A separate model call may follow for the lesson.
 4. Each applied edit records the first pre-edit version of its file for that run. The agent prompt tells the model to run `check_impact` after editing and address any reported problems. This instruction is prompt-driven. The engine can finish when the model returns no further calls, and unresolved problems are still surfaced in the final fix analysis.
@@ -69,7 +69,7 @@ The schema enforces fields and types. Factual accuracy and beginner readability 
 
 ## Evaluation and acceptance
 
-The local revision includes ten small seeded JavaScript and TypeScript cases. Cases 03 and 09 cover the core recent-change analysis for a new required input and a renamed function. The offline verifier checks that the buggy fixture fails its grader, the reference fix passes, and expected analyzer findings appear for the applicable cases.
+The repository includes ten small seeded JavaScript and TypeScript cases. Cases 03 and 09 cover the core recent-change analysis for a new required input and a renamed function. The offline verifier checks that the buggy fixture fails its grader, the reference fix passes, and expected analyzer findings appear for the applicable cases.
 
 Model-backed runs use fresh temporary projects, auto-approve edit proposals, and by default decline commands that would require a user's approval. A run passes when the behavioral grader passes, protected files stay unchanged, there are no syntax errors in changed supported files, and a lesson is present. Scope drift and changed files without a recorded proposal are reported separately. The runner also records tokens, duration, risk, command decisions, remaining static issues, and the lesson concept. Presence of a lesson is distinct from lesson accuracy. The fixture runner does not exercise VS Code's approval UI.
 

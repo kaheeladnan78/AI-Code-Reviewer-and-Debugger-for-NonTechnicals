@@ -5,15 +5,15 @@ A VS Code debugging assistant that helps non-technical builders fix bugs and und
 | | |
 |---|---|
 | Project owner | Kaheel Adnan |
-| Status | Draft · working local prototype |
+| Status | Working prototype; pilot not yet run |
 | Last updated | November 19, 2026 |
-| Resources | [Technical specification](TECHNICAL_SPEC.md) · [Project README](../README.md) · [Prototype screenshot](screenshot.png) |
+| Resources | [Technical specification](TECHNICAL_SPEC.md) · [Project README](../README.md) |
 
 ## Problem Alignment
 
 AI coding tools make it possible to build working software without formal training. When that software breaks, builders still have to make sense of error messages, code changes, and test output before they can decide whether to trust a fix. That leaves people dependent on the same tool the next time something breaks.
 
-The initial audience is **AI-assisted builders and low-code or no-code builders who maintain a small JavaScript or TypeScript project or an exported Apps Script project**. Product managers, analysts, and designers who maintain occasional scripts are a secondary audience. The founder's experience building Quickity and observing people struggle with tools like Claude Code motivated the product. That evidence is anecdotal. The first pilot should test how common the problem is and which audience feels it most acutely.
+The initial audience is **AI-assisted builders and low-code or no-code builders who maintain a small JavaScript or TypeScript project or an exported Apps Script project**. Product managers, analysts, and designers who maintain occasional scripts are a secondary audience. The idea came from building Quickity, a Google Slides add-on, and watching people struggle to follow what general coding agents such as Claude Code were changing. That evidence is anecdotal, so the first pilot tests how common the problem is and which audience feels it most.
 
 ### High Level Approach
 
@@ -42,10 +42,6 @@ These are proposed targets. The minimum initial usability sample is five target 
 - Whole-app generation, automatic deployment, and hosting user projects. The first release focuses on understanding and fixing existing code.
 - Broad language coverage and browser or Google Workspace runtime automation. Start with locally available JavaScript, TypeScript, and Apps Script source.
 - Replacing a professional debugger or proving a project is regression-free. Inspection and local checks provide evidence for a specific fix.
-
-| Reviewer | Team or role | Status |
-|---|---|---|
-| Kaheel Adnan | Project owner | Pending problem review |
 
 ## Solution Alignment
 
@@ -79,17 +75,13 @@ These are proposed targets. The minimum initial usability sample is five target 
 - The lesson draws from the recorded steps. Showing that a test ran, a connection was found, or a cause was confirmed requires evidence. Assess claims in the live reply and lesson separately.
 - The hosted model receives relevant project context. The local run log can contain prompts, diffs, commands, and output. The pilot setup should make both clear.
 
-| Reviewer | Team or role | Status |
-|---|---|---|
-| Kaheel Adnan | Project owner | Pending solution review |
-
 ## Launch Plan
 
 ### Key Milestones
 
 | Target date | Milestone | Description | Exit criteria |
 |---|---|---|---|
-| Prototype available locally | Working build | Run the sidebar and CLI from source with a user-provided OpenAI key | Confirm the approval, rejection, undo, and lesson flows in a live extension run. |
+| November 2026 | Working build | Run the sidebar and CLI from source with a user-provided OpenAI key | Confirm the approval, rejection, undo, and lesson flows in a live extension run. |
 | TBD | Eval baseline | Run the seeded suite repeatedly and review transcripts | Publish counts for fix rate, explanation accuracy, and approval behavior. Establish a cost baseline. |
 | TBD | Usability pilot | Test setup and a full debugging task with at least five target builders | Four of five finish without coaching, at least 80% meet the comprehension criterion, clarity averages at least 4/5, and approval guardrails hold. |
 | TBD | Shareable preview | Package setup instructions, a demo, known limitations, and measured results | A new user can complete setup and try the demo. Any user data and API key requirements are clear before use. |
@@ -110,7 +102,7 @@ These are proposed targets. The minimum initial usability sample is five target 
 
 | Date | Update |
 |---|---|
-| November 19, 2026 | Reworked Claude's draft using Kevin Yien's PRD structure. Updated the feature inventory and launch gates against local revision `3600941`. |
+| November 19, 2026 | First version, structured after Kevin Yien's PRD template. Feature inventory and launch gates reflect the current prototype. |
 
 ### Open Questions
 
